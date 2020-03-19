@@ -20,6 +20,7 @@ services:
        dockernet1:
          aliases:
            - audi-rule-engine.com
+
   mercedes:
     image: mercedes-app:latest
     ports:

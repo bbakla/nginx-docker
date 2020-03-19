@@ -36,7 +36,7 @@ func HTTPHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HelloHandler(writer http.ResponseWriter, request *http.Request) {
-	log.Println("lets seee")
+	log.Println("lets seee. Reporting from AUDI!!")
 
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)

@@ -7,6 +7,6 @@ WORKDIR /app
 RUN go get "github.com/gorilla/mux"
 RUN  go build -o main .
 
-EXPOSE 8091
+#EXPOSE 8091
 
 ENTRYPOINT ["/app/main"]
