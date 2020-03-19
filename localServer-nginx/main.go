@@ -14,17 +14,6 @@ const (
 	TenantCheckPort = 8088
 )
 
-//with mozilla
-/*
-func main() {
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc(rootPath, HTTPHandler)
-
-	log.Fatal(http.ListenAndServe(strconv.Itoa(TenantCheckPort), router))
-}
-*/
-
-
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 
@@ -68,5 +57,3 @@ func HelloHandler(writer http.ResponseWriter, request *http.Request) {
 
 	fmt.Fprintf(writer, "%s", mapAsJson)
 }
-
-
