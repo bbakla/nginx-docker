@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  reverse_proxy_service:
+    image: nginx-learning:latest
+    ports:
+    - 9989:80
+    depends_on:
+    - localServerAlias
+    networks:
+      dockernet1:
+      #  aliases:
+      #    - reverse
+
+  localServerAlias:
+    image: localserver-nginx:latest
+    ports:
+    - 8098:8099
+    networks:
+       dockernet1:
+      #  aliases:
+       #    - localServerAlias
+
+networks:
+  dockernet1:
+  #  external: true
+
+
+
