@@ -5,20 +5,29 @@ services:
     ports:
     - 9989:80
     depends_on:
-    - localServerAlias
+    - audi
+    - mercedes
     networks:
       dockernet1:
         aliases:
           - reverse
 
-  localServerAlias:
-    image: localserver-nginx:latest
+  audi:
+    image: audi-app:latest
     ports:
     - 8098:8099
     networks:
        dockernet1:
          aliases:
-           - localServerAlias-test
+           - audi-rule-engine.com
+  mercedes:
+    image: mercedes-app:latest
+    ports:
+      - 7098:8099
+    networks:
+      dockernet1:
+        aliases:
+          - mercedes-rule-engine.com
 
 networks:
   dockernet1:

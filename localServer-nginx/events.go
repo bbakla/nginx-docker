@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -20,12 +19,11 @@ type allEvents []event
 
 var events = allEvents{
 	{
-		ID:          "1",
-		Title:       "Introduction to Golang",
+		ID:          "1_MERCEDES",
+		Title:       "This is an mercedes container",
 		Description: "Come join us for a chance to learn how golang works and get to eventually try it out",
 	},
 }
-
 
 func createEvent(w http.ResponseWriter, r *http.Request) {
 	var newEvent event
@@ -127,19 +125,15 @@ func resolveNginx(writer http.ResponseWriter, request *http.Request) {
 	url := fmt.Sprintf("%v %v %v", request.Method, request.URL, request.Proto)
 	requestInfo["url"] = url
 
-
 	for k, v := range request.Header {
 		requestInfo[k] = fmt.Sprintf("%q", v)
 	}
 
 	requestInfo["host"] = fmt.Sprintf("%q", request.Host)
-	requestInfo["remoteAddress"] =  fmt.Sprintf("%q", request.RemoteAddr)
-
+	requestInfo["remoteAddress"] = fmt.Sprintf("%q", request.RemoteAddr)
 
 	mapAsJson, _ := json.Marshal(requestInfo)
 
 	fmt.Fprintf(writer, "%s", mapAsJson)
 
-
 }
-
