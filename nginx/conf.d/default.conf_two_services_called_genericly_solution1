@@ -8,7 +8,7 @@
 server {
     listen 80;
     #server_name ~^(www\.)?(?<domain>.+)$;
-    server_name _;
+    server_name _
     port_in_redirect off;
 
     #resolver 127.0.0.11 ipv6=off;
@@ -19,11 +19,6 @@ server {
 
     location / {
         set $rule_engine_address http://$host:8099$request_uri;
-
-        auth_request /authorize;
-        auth_request_set $auth_status $upstream_status;
-
-
         proxy_pass $rule_engine_address;
         #proxy_pass http://$host:8099$request_uri;
         #proxy_pass http://$domain:8099$request_uri;
@@ -42,52 +37,20 @@ server {
         proxy_pass_header on;
     }
 
-    location = /authorize {
-        internal;
-        proxy_pass http://authorizer:8090;
 
-        proxy_intercept_errors off;
-        proxy_pass_request_body off;
-        proxy_set_header        Content-Length "";
-        proxy_set_header        X-Original-URI $request_uri;
-        #proxy_set_header X-Original-URI $request_uri;
-
-    }
-
-    error_page 500 =404 /404.html;
-
+   # error page redirection doesnt work when we have the location /
     error_page 404 /404.html;
-    location /404.html {
-        #return 404  /usr/share/nginx/404.html;
-        #internal;
-
-        root /usr/share/nginx/html;
-
-
-        #proxy_pass_request_body off;
-        #proxy_set_header Content-Length "";
-        #proxy_set_header X-Original-URI $request_uri;
-    }
-
-    error_page 401  /index.html;
-    location /index.html {
-        #return 401 /usr/share/nginx/index.html;
+    location = /404.html {
         internal;
-        root /usr/share/nginx/html;
-
-
+        #root /usr/share/nginx/html;
+        root /var/www/html/;
 
     }
 
-
-
-   error_page  502 503 505 /50x.html;
+    error_page 500 502 503 505 /50x.html;
     location = /50x.html {
         root /usr/share/nginx/html;
         internal;
-        proxy_pass_request_body off;
-        proxy_set_header Content-Length "";
-        proxy_set_header X-Original-URI $request_uri;
     }
 
 

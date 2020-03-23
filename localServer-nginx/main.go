@@ -11,7 +11,7 @@ import (
 const (
 	rootPath        = "/"
 	nginxPath       = "/nginx"
-	TenantCheckPort = 8088
+	TenantCheckPort = 8099
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	router.HandleFunc("/events/{id}", getOneEvent).Methods("GET")
 	router.HandleFunc("/events/{id}", updateEvent).Methods("PATCH")
 	router.HandleFunc("/events/{id}", deleteEvent).Methods("DELETE")
-	err := http.ListenAndServe(":8099", router)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", TenantCheckPort), router)
 	fmt.Printf("%v", err)
 }
 

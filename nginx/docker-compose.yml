@@ -7,6 +7,7 @@ services:
     depends_on:
     - audi
     - mercedes
+    - authorization
     networks:
       dockernet1:
         aliases:
@@ -29,6 +30,16 @@ services:
       dockernet1:
         aliases:
           - mercedes-rule-engine.com
+
+  authorization:
+    image: authorizer-multi-test:latest
+    ports:
+      - 8090:8090
+    networks:
+      dockernet1:
+        aliases:
+          - authorizer
+
 
 networks:
   dockernet1:

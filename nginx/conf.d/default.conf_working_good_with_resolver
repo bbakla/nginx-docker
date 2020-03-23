@@ -1,0 +1,52 @@
+#upstream rule_engine_upstream {
+
+   # server audi-rule-engine.com:8099;
+   # server mercedes-rule-engine.com:8099;
+
+#}
+
+server {
+    listen 80;
+    server_name ~^(www\.)?(?<domain>.+)$;
+    port_in_redirect off;
+
+    resolver 127.0.0.11 ipv6=off; #I am very skeptical about it. https://stackoverflow.com/questions/35744650/docker-network-nginx-resolver
+
+    #set $rule_engine http://rule_engine_upstream; # No trailing slash. Otherwise, subpaths dont work.
+
+    location / {
+
+        proxy_pass http://$domain:8099$request_uri;
+        #proxy_pass $scheme://$proxy_host$request_uri;
+
+        #proxy_pass $rule_engine;
+
+        proxy_redirect   off; # proxy redirect off makes a big difference
+
+        proxy_set_header Host            $host;
+        proxy_set_header Http_Host       $http_host;
+        proxy_set_header args            $arg_url;
+        proxy_set_header proxy_host      $proxy_host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Original-URI    $request_uri;
+        proxy_pass_header on;
+    }
+
+
+   # error page redirection doesnt work when we have the location /
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+        #root /usr/share/nginx/html;
+        root /var/www/html/;
+
+    }
+
+    error_page 500 502 503 505 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+
+
+}
