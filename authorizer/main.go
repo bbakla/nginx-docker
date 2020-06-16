@@ -27,13 +27,19 @@ func HTTPHandler(w http.ResponseWriter, r *http.Request) {
 	okStatus := r.Header.Get("returnOK")
 	if okStatus == "200" {
 		log.Println(w, "200!")
+		w.Header().Set("notfound", "false")
+
 		w.WriteHeader(http.StatusOK)
 	} else if okStatus == "401" {
 		log.Println(w, "401!")
 		w.WriteHeader(http.StatusUnauthorized)
 	} else {
 		log.Println(w, "404")
+		w.Header().Set("notfound", "true")
+		w.Header().Set("Expect", "1")
+
 		w.WriteHeader(http.StatusNotFound)
+
 	}
 
 	return

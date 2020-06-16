@@ -1,0 +1,16 @@
+@startuml
+
+Browser -> Nginx : http://mercedes-rule-engine.alarm.horizondev.cloud
+note top
+       Before running the whole set in your local:
+        * Alias urls should be inserted
+          into hosts(Windows)
+        * docker-compose should be ran
+end note
+Nginx --> Authorizer :returnOK header: 200
+activate Nginx
+Authorizer --> Nginx : returns 200, 400 or 401
+deactivate Nginx
+Nginx --> Mercedes_App: mercedes-rule-engine.local-multi
+
+@enduml

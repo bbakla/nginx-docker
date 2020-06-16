@@ -3,7 +3,7 @@ services:
   reverse_proxy_service:
     image: nginx-learning:latest
     ports:
-    - 9989:80
+    - 80:80
     depends_on:
     - audi
     - mercedes
@@ -20,7 +20,7 @@ services:
     networks:
        dockernet1:
          aliases:
-           - audi-rule-engine.com
+           - audi-rule-engine.local-multi
 
   mercedes:
     image: mercedes-app:latest
@@ -29,7 +29,7 @@ services:
     networks:
       dockernet1:
         aliases:
-          - mercedes-rule-engine.com
+          - mercedes-rule-engine.local-multi
 
   authorization:
     image: authorizer-multi-test:latest
